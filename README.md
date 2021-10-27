@@ -18,6 +18,8 @@ nomeJSON,nomeCampoNoBancoDados,tipoCampo,tamanhoCampo,escala,ehChavePrimaria,ehC
 
 ### exemplo saida
 ```
-
+@JsonProperty("nomeCampo")
+@Column(name = "nome_campo", nullable = false)
+private String nomeCampo;  
 ```
 
