@@ -23,7 +23,7 @@ data class Field(
         return """
             $enumeratedText
             @JsonProperty("$name")
-            @Column(name = "$fieldName", nullable = $required)
+            @Column(name = "$fieldName", nullable = ${!required})
             private ${type.descricao} $name;            
         """.trimIndent()
     }
