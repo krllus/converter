@@ -24,7 +24,7 @@ fun main(args: Array<String>) {
 
 private fun convertLineToFieldOrNull(line: String?): Field? {
 
-    if (line.isNullOrEmpty()) return null;
+    if (line.isNullOrEmpty()) return null
 
     val tokens = line.split(",")
 
@@ -56,7 +56,7 @@ private fun getTypeFromToken(fieldType: String, fieldSize: Int, fieldName: Strin
         "varchar" -> Type.STRING
         "int", "smallint" -> Type.INTEGER
         "datetime" -> Type.DATE
-        "money" -> Type.BIG_DECIMAL
+        "money", "decimal" -> Type.BIG_DECIMAL
         "char" -> {
             if (fieldSize == 1 || fieldSize == 2) {
                 Type.ENUM(fieldName)
