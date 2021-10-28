@@ -56,7 +56,7 @@ private fun getTypeFromToken(fieldType: String, fieldSize: Int, fieldName: Strin
         "varchar" -> Type.STRING
         "int", "smallint" -> Type.INTEGER
         "datetime" -> Type.DATE
-        "money", "decimal" -> Type.BIG_DECIMAL
+        "money", "decimal", "numeric" -> Type.BIG_DECIMAL
         "char" -> {
             if (fieldSize == 1 || fieldSize == 2) {
                 Type.ENUM(fieldName)
