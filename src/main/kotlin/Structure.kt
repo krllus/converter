@@ -20,10 +20,15 @@ data class Field(
                 """.trimIndent()
         }
 
+        val requiredText = when (required) {
+            true -> ", nullable = false"
+            else -> ""
+        }
+
         return """
             $enumeratedText
             @JsonProperty("$name")
-            @Column(name = "$fieldName", nullable = ${!required})
+            @Column(name = "$fieldName" $requiredText)
             private ${type.descricao} $name;            
         """.trimIndent()
     }
