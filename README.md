@@ -20,6 +20,7 @@ nomeJSON,nomeCampoNoBancoDados,tipoCampo,tamanhoCampo,escala,ehChavePrimaria,ehC
 ```
 @JsonProperty("nomeCampo")
 @Column(name = "nome_campo", nullable = false)
+@NotNull("nomeCampo não pode ser nulo")
 private String nomeCampo;  
 ```
 

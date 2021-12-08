@@ -9,7 +9,7 @@ data class Field(
 
         val enumeratedText = when (type) {
             is Type.ENUM -> "// TODO verify line \n // $line \n @Enumerated(EnumType.STRING)"
-            is Type.DATE -> "@Temporal(TemporalType.TIME)"
+            is Type.DATE -> "@Temporal(TemporalType.TIMESTAMP)"
             else -> ""
         }
 
@@ -21,14 +21,14 @@ data class Field(
         }
 
         val requiredText = when (required) {
-            true -> ", nullable = false"
-            else -> ""
+            true -> ", nullable = false)\n@NotNull(\"$name não pode ser nulo\")"
+            else -> ")"
         }
 
         return """
             $enumeratedText
             @JsonProperty("$name")
-            @Column(name = "$fieldName" $requiredText)
+            @Column(name = "$fieldName" $requiredText
             private ${type.descricao} $name;            
         """.trimIndent()
     }
