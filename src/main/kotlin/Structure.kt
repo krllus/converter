@@ -21,7 +21,7 @@ data class Field(
         }
 
         val requiredText = when (required) {
-            true -> ", nullable = false)\n@NotNull(\"$name não pode ser nulo\")"
+            true -> ", nullable = false)\n@NotNull(message = \"$name não pode ser nulo\")"
             else -> ")"
         }
 
