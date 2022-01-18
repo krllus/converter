@@ -16,7 +16,7 @@ data class Field(
         }
 
         val enumeratedText = when (type) {
-            is Type.ENUM -> "// TODO verificar linha \n // $line \n @Enumerated(EnumType.STRING)"
+            is Type.ENUM -> "// TODO verificar linha \n // $line"
             //is Type.DATE -> "@Temporal(TemporalType.TIMESTAMP)"
             else -> ""
         }
