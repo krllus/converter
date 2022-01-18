@@ -2,20 +2,28 @@ data class Field(
     val name: String,
     val fieldName: String,
     val required: Boolean = false,
+    val length: Int,
+    val scale: Int,
     val type: Type,
-    val line: String
+    val line: String,
+    val isId: Boolean = false
 ) {
     override fun toString(): String {
 
+        val idText = when (isId) {
+            true -> "@Id"
+            else -> ""
+        }
+
         val enumeratedText = when (type) {
-            is Type.ENUM -> "// TODO verify line \n // $line \n @Enumerated(EnumType.STRING)"
-            is Type.DATE -> "@Temporal(TemporalType.TIMESTAMP)"
+            is Type.ENUM -> "// TODO verificar linha \n // $line \n @Enumerated(EnumType.STRING)"
+            //is Type.DATE -> "@Temporal(TemporalType.TIMESTAMP)"
             else -> ""
         }
 
         if (type == Type.MANUAL) {
             return """
-                // FIXME nao foi possivel converter campo, conversao manual necessaria
+                // FIXME não foi possível converter campo, conversão manual necessária
                 // $line                
                 """.trimIndent()
         }
@@ -25,10 +33,14 @@ data class Field(
             else -> ")"
         }
 
+        val fieldLength = length - scale
+
         return """
+            $idText
             $enumeratedText
             @JsonProperty("$name")
-            @Column(name = "$fieldName" $requiredText
+            @Size(max=$fieldLength)
+            @Column(name = "$fieldName", length=$fieldLength $requiredText            
             private ${type.descricao} $name;            
         """.trimIndent()
     }
@@ -37,8 +49,8 @@ data class Field(
 sealed class Type(val descricao: String) {
     object STRING : Type("String")
     object INTEGER : Type("Integer")
-    object DATE : Type("Date")
+    object DATE : Type("LocalDateTime")
     object BIG_DECIMAL : Type("BigDecimal")
     object MANUAL : Type("MANUAL")
-    data class ENUM(val value: String) : Type(value) {}
+    data class ENUM(val value: String) : Type(value)
 }
