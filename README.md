@@ -1,19 +1,19 @@
-# fujioka-converter
-Conversor para ajudar com mapeamento de classes
+# Converter
+Conversor de `csv` para entidades `Java` 
 
-## build do projeto
+## build
 ```
     gradle build
 ```
 
 ## execucao
 ```
-    java -jar $projeto/builds/libs/fujioka-converter-1.0.jar <nome_arquivo.csv>
+    java -jar $projeto/builds/libs/converter-1.0.jar <nome_arquivo.csv>
 ```
 
 ### formatacao dados de entrada
 ```
-nomeJSON,nomeCampoNoBancoDados,tipoCampo,tamanhoCampo,escala,ehChavePrimaria,ehCampoObrigatorio
+valorJson, dadosExemplo, classeDestino, tabelaDestino, colunaDestino, tipoDados, comprimento, escala, ehChavePrimaria, obrigatorio
 ```
 
 ### exemplo saida
