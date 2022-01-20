@@ -1,3 +1,3 @@
 
-rootProject.name = "fujioka-converter"
+rootProject.name = "converter"
 
