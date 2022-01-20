@@ -16,7 +16,7 @@ fun main(args: Array<String>) {
         val field = convertLineToFieldOrNull(line)
 
         if (field != null) {
-            println(field)
+            println(field.toString())
             println()
         }
     }

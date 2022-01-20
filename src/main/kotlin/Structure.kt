@@ -2,7 +2,7 @@ data class Field(
     val name: String,
     val fieldName: String,
     val required: Boolean = false,
-    val length: Int,
+    val fieldLength: Int,
     val scale: Int,
     val type: Type,
     val line: String,
@@ -10,22 +10,26 @@ data class Field(
 ) {
     override fun toString(): String {
 
+        if (type == Type.MANUAL) {
+            return "// FIXME não foi possível converter campo, conversão manual necessária\n// $line"
+        }
+
         val idText = when (isId) {
             true -> "@Id"
             else -> ""
         }
 
         val enumeratedText = when (type) {
-            is Type.ENUM -> "// TODO verificar linha \n // $line"
-            //is Type.DATE -> "@Temporal(TemporalType.TIMESTAMP)"
-            else -> ""
+            is Type.ENUM -> "// TODO verificar linha\n// $line"
+            else -> "\n"
         }
 
-        if (type == Type.MANUAL) {
-            return """
-                // FIXME não foi possível converter campo, conversão manual necessária
-                // $line                
-                """.trimIndent()
+        val integer = fieldLength - scale
+
+        val sizeText = when (type) {
+            is Type.DATE -> "\n"
+            is Type.BIG_DECIMAL -> "@Digits(integer=$integer, fraction=$scale)"
+            else -> "@Size(max=$fieldLength)"
         }
 
         val requiredText = when (required) {
@@ -33,16 +37,15 @@ data class Field(
             else -> ")"
         }
 
-        val fieldLength = length - scale
+        val result = mutableListOf<String>()
+        result.add(idText)
+        result.add(enumeratedText)
+        result.add("@JsonProperty(\"$name\")")
+        result.add(sizeText)
+        result.add("@Column(name = \"$fieldName\", length=$fieldLength $requiredText")
+        result.add("private ${type.descricao} $name;")
 
-        return """
-            $idText
-            $enumeratedText
-            @JsonProperty("$name")
-            @Size(max=$fieldLength)
-            @Column(name = "$fieldName", length=$fieldLength $requiredText            
-            private ${type.descricao} $name;            
-        """.trimIndent()
+        return result.filterNot { it.isBlank() }.joinToString (separator = "\n")
     }
 }
 
