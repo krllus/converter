@@ -46,8 +46,9 @@ private fun getTypeFromToken(fieldType: String, fieldSize: Int, fieldName: Strin
 
     return when (fieldType) {
         "varchar" -> Type.STRING
-        "int", "smallint" -> Type.INTEGER
+        "int", "smallint", "bigint" -> Type.INTEGER
         "datetime" -> Type.DATE
+        "time" -> Type.TIME
         "money", "decimal", "numeric" -> Type.BIG_DECIMAL
         "char" -> {
             if (fieldSize == 1 || fieldSize == 2) {
@@ -56,7 +57,7 @@ private fun getTypeFromToken(fieldType: String, fieldSize: Int, fieldName: Strin
                 Type.STRING
             }
         }
-        else -> Type.STRING
+        else -> Type.MANUAL
     }
 }
 

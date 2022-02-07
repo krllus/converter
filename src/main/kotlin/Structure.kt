@@ -27,9 +27,9 @@ data class Field(
         val integer = fieldLength - scale
 
         val sizeText = when (type) {
-            is Type.DATE -> "\n"
+            is Type.STRING -> "@Size(max=$fieldLength)"
             is Type.BIG_DECIMAL -> "@Digits(integer=$integer, fraction=$scale)"
-            else -> "@Size(max=$fieldLength)"
+            else -> "\n"
         }
 
         val requiredText = when (required) {
@@ -53,6 +53,7 @@ sealed class Type(val descricao: String) {
     object STRING : Type("String")
     object INTEGER : Type("Integer")
     object DATE : Type("LocalDateTime")
+    object TIME : Type("LocalTime")
     object BIG_DECIMAL : Type("BigDecimal")
     object MANUAL : Type("MANUAL")
     data class ENUM(val value: String) : Type(value)
