@@ -21,6 +21,12 @@ data class Field(
 
         val enumeratedText = when (type) {
             is Type.ENUM -> "// TODO verificar linha\n// $line"
+            is Type.DATE -> {
+                if (isId)
+                    "@Temporal(TemporalType.TIMESTAMP)"
+                else
+                    "\n"
+            }
             else -> "\n"
         }
 
@@ -43,14 +49,28 @@ data class Field(
         result.add("@JsonProperty(\"$name\")")
         result.add(sizeText)
         result.add("@Column(name = \"$fieldName\", length=$fieldLength $requiredText")
-        result.add("private ${type.descricao} $name;")
+        result.add("private ${getDescriptionForType(type, isId)} $name;")
 
-        return result.filterNot { it.isBlank() }.joinToString (separator = "\n")
+        return result.filterNot { it.isBlank() }.joinToString(separator = "\n")
+    }
+}
+
+fun getDescriptionForType(type: Type, isIdentifier: Boolean): String {
+
+    return when (type) {
+        is Type.DATE -> {
+            if (isIdentifier)
+                "java.util.Date"
+            else
+                type.descricao
+        }
+        else -> type.descricao
     }
 }
 
 sealed class Type(val descricao: String) {
     object STRING : Type("String")
+    object CLOB : Type("char[]")// ou java.sql.Clob
     object INTEGER : Type("Integer")
     object DATE : Type("LocalDateTime")
     object TIME : Type("LocalTime")

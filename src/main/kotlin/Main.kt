@@ -33,6 +33,7 @@ private fun convertLineToFieldOrNull(line: String?): Field? {
         10 -> parseFor10Fields(line, tokens)
         else -> {
             println("quantidade de tokens nao suportado, tente com 7 ou 10")
+            println(line)
             null
         }
     }
@@ -46,6 +47,7 @@ private fun getTypeFromToken(fieldType: String, fieldSize: Int, fieldName: Strin
 
     return when (fieldType) {
         "varchar" -> Type.STRING
+        "text" -> Type.CLOB
         "int", "smallint", "bigint" -> Type.INTEGER
         "datetime" -> Type.DATE
         "time" -> Type.TIME
